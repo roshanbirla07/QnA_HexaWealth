@@ -1,15 +1,50 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useState,useEffect } from "react";
 const MyPosts = () => {
-  const admin = true;
-  const questions = [
-    { id: 1, que: "Why is Tushar gay?", tag: ["math", "LGBTQ"] },
-    { id: 2, que: "Why is Birla's height so small?", tag: ["birla", "bkl"] },
-    { id: 3, que: "Melody itni chocolatey kyon h?", tag: ["chocolate", "melody", "toffy"] },
-  ];
+  
 
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('token');
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  const admin = payload.roleType === "admin";
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching data...");
+        const response = await fetch('http://localhost:4000/api/v1/qna/approvedQuestions', {
+          method: 'GET',
+          credentials: 'include', // Include cookies
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const result = await response.json();
+        setData(result.data); // Update state with fetched data
+        console.log(result, "Fetched data");
+      } catch (err) {
+        setError(err.message); // Update state with error message
+      } finally {
+        setLoading(false); // Stop loading spinner
+      }
+    };
+
+    fetchData();
+  }, []);
+ 
+  const clickHandler = (question) => {
+    console.log(question)
+    navigate(`/question`, { state: { question } });
+  };
+
 
   // Edit handler: Navigates to the edit page with the selected question details
   const editHandler = (question) => {
@@ -23,11 +58,13 @@ const MyPosts = () => {
   return (
     <div>
       <div className="flex flex-col m-10">
-        {questions.map((value) => (
-          <div key={value.id} className="my-5 border-b-2 py-5">
-            <div className="text-2xl cursor-pointer hover:underline">Q. {value.que}</div>
+        {data.map((value) => (
+          <div key={value._id} className="my-5 border-b-2 py-5" 
+             onClick={() => clickHandler(value)}
+          >
+            <div className="text-2xl cursor-pointer hover:underline">Q. {value.questionTitle}</div>
             <div className="flex my-2">
-              {value.tag.map((tt, idx) => (
+              {value?.tags?.map((tt, idx) => (
                 <div key={idx} className="px-2 text-gray-600">{tt}</div>
               ))}
             </div>

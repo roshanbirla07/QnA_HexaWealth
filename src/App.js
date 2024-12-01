@@ -8,6 +8,8 @@ import MyPending from './components/MyPending.jsx';
 import { Route,Routes } from 'react-router-dom';
 import PrivateRoute from './components/Auth/PrivateRoute.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
+import MyPosts from './components/MyPosts';
+import QuestionPage from './components/QuestionPage';
 // import OpenRoute from './components/Auth/OpenRoute.jsx';
 function App() {
   const {token }=useAuth();
@@ -41,6 +43,15 @@ function App() {
           }
         />
         <Route
+          path="/myposts"
+          element={
+            // <PrivateRoute>
+              <MyPosts/>
+            // </PrivateRoute>
+          }
+        />
+        
+        <Route
           path="/login"
           element={
             // <PrivateRoute>
@@ -56,6 +67,15 @@ function App() {
             // </PrivateRoute>
           }
         />
+        <Route
+          path="/question"
+          element={
+            // <PrivateRoute>
+              <QuestionPage/>
+            // </PrivateRoute>
+          }
+        />
+
         <Route
           path="/submitquestion"
           element={

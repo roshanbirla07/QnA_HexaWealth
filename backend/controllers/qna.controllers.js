@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const fetchQuestions = asyncHandler(async (req, res) => {
   try {
-    const questions = await QnA.find({});
+    const questions = await QnA.find({ status: "approved" });
     return res.status(200).json(new ApiResponse(200, questions, "Questions fetched Successfully"));
   } catch (error) {
     console.error(error);
@@ -43,7 +43,7 @@ const approveQuestion = asyncHandler(async (req, res) => {
     const { questionId, status } = req.body;
     if (!questionId) throw new ApiError(401, "Question Id is Required");
     const updatedQuestion = await QnA.findByIdAndUpdate(
-      mongoose.Schema.Types.ObjectId(questionId),
+      new mongoose.Types.ObjectId(questionId),
       {
         $set: {
           status,
@@ -60,6 +60,7 @@ const approveQuestion = asyncHandler(async (req, res) => {
       );
   } catch (error) {
     console.error(error.message);
+
     return res.status(500).json(error);
   }
 });

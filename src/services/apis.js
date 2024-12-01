@@ -14,7 +14,7 @@ export const DELETE_QUESTION = QNA_ROUTER + "/deleteQuestion";
 export const APPROVE_QUESTION = QNA_ROUTER + "/approveQuestion";
 export const APPROVED_QUESTIONS = QNA_ROUTER + "/approvedQuestions";
 export const PENDING_QUESTIONS = QNA_ROUTER + "/pendingQuestions";
-export const EDIT_QUESTION = QNA_ROUTER + "/editQuestion/:questionId";
+export const EDIT_QUESTION = QNA_ROUTER + "/editQuestion";
 
 export const POST_COMMENT = COMMENT_ROUTER + "/postComment";
 export const FETCH_COMMENTS = COMMENT_ROUTER + "/fetchComments";

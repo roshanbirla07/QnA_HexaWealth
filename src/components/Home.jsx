@@ -13,15 +13,16 @@ const Home = () => {
   const admin = payload.roleType === "admin";
   const { userId } = payload; 
   const navigate = useNavigate();
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Fetching data...");
-        const response = await fetch('http://localhost:4000/api/v1/qna/approvedQuestions', {
+        const response = await fetch('http://localhost:4000/api/v1/qna/fetchQuestions', {
           method: 'GET',
           credentials: 'include', // Include cookies
         });
@@ -46,29 +47,17 @@ const Home = () => {
   // Handler to set the selected question
   const clickHandler = (question) => {
     console.log(question)
-    setSelectedQuestion(question);
-     // Pass the selected question object
-     console.log(selectedQuestion,"hello")
+    navigate(`/question`, { state: { question } });
   };
 
-  // Handler to return to the home screen
-  const goBackHandler = () => {
-    setSelectedQuestion(null); // Reset selected question to show the home page
-  };
+const [refreshKey, setRefreshKey] = useState(0);
 
   return (
     <div>
-      {/* Conditionally render QuestionPage or Home content */}
-      {selectedQuestion ? (
-        <div>
-        <div onClick={goBackHandler}>go back</div>
-       { console.log(selectedQuestion,"hello hello")}
-        <QuestionPage question={selectedQuestion} />
-        </div>
-      ) : (
+     
         <div className="flex flex-col m-10">
           {data.map((value) => (
-            <div key={1} className="my-5 border-b-2 py-5">
+            <div key={value._id} className="my-5 border-b-2 py-5">
               <div
                 className="text-2xl cursor-pointer hover:underline"
                 onClick={() => clickHandler(value)} // Pass the complete question object
@@ -83,7 +72,9 @@ const Home = () => {
               {(admin || userId === value.author) && (
                 <button
                   className="text-red-600 mt-2 hover:underline"
-                  onClick={() => deleteQuestion("DELETE", DELETE_QUESTION, { questionId: value._id}, navigate)}
+                  onClick={() => deleteQuestion("DELETE", DELETE_QUESTION, { questionId: value._id},  () => {
+                    setRefreshKey((prev) => prev + 1); // Trigger re-fetch
+                  })}
                 >
                   Delete
                 </button>
@@ -91,7 +82,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-      )}
+      
     </div>
   );
 };
