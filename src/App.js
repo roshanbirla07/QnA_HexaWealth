@@ -1,44 +1,36 @@
-import './App.css';
-import Home from './components/Home.jsx'
-import SignUp from './components/SignUp.jsx';
-import Navbar from './components/Navbar.jsx';
-import LoginPage from './components/Login.jsx';
-import QuestionForm from './components/QuestionForm.jsx';
-import MyPending from './components/MyPending.jsx';
-import { Route,Routes } from 'react-router-dom';
-import PrivateRoute from './components/Auth/PrivateRoute.jsx';
-import { useAuth } from './contexts/AuthContext.jsx';
-import MyPosts from './components/MyPosts';
-import QuestionPage from './components/QuestionPage';
+import "./App.css";
+import Home from "./components/Home.jsx";
+import SignUp from "./components/SignUp.jsx";
+import Navbar from "./components/Navbar.jsx";
+import LoginPage from "./components/Login.jsx";
+import QuestionForm from "./components/QuestionForm.jsx";
+import MyPending from "./components/MyPending.jsx";
+import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/Auth/PrivateRoute.jsx";
+import { useAuth } from "./contexts/AuthContext.jsx";
+import MyPosts from "./components/MyPosts";
+import QuestionPage from "./components/QuestionPage";
 // import OpenRoute from './components/Auth/OpenRoute.jsx';
 function App() {
-  const {token }=useAuth();
+  const { token } = useAuth();
   console.log(token);
   return (
     <>
-    {/* <SignUp/> */}
-    {/* <LoginPage/> */}
-    {
-      token !==null && <Navbar/>
-    }
-    {/* <Navbar/> */}
-    {/* <Home/> */}
-    {/* <QuestionForm/> */}
-    {/* <MyPending/> */}
-    <Routes>
+      {token !== null && <Navbar />}
+      <Routes>
         <Route
           path="/"
           element={
             <PrivateRoute>
               <Home />
-             </PrivateRoute>
+            </PrivateRoute>
           }
         />
         <Route
           path="/pendings"
           element={
             // <PrivateRoute>
-              <MyPending />
+            <MyPending />
             // </PrivateRoute>
           }
         />
@@ -46,16 +38,16 @@ function App() {
           path="/myposts"
           element={
             // <PrivateRoute>
-              <MyPosts/>
+            <MyPosts />
             // </PrivateRoute>
           }
         />
-        
+
         <Route
           path="/login"
           element={
             // <PrivateRoute>
-              <LoginPage/>
+            <LoginPage />
             // </PrivateRoute>
           }
         />
@@ -63,7 +55,7 @@ function App() {
           path="/signup"
           element={
             // <PrivateRoute>
-              <SignUp/>
+            <SignUp />
             // </PrivateRoute>
           }
         />
@@ -71,7 +63,7 @@ function App() {
           path="/question"
           element={
             // <PrivateRoute>
-              <QuestionPage/>
+            <QuestionPage />
             // </PrivateRoute>
           }
         />
@@ -80,14 +72,11 @@ function App() {
           path="/submitquestion"
           element={
             // <PrivateRoute>
-              <QuestionForm/>
+            <QuestionForm />
             // </PrivateRoute>
           }
         />
-        
-        
-
-    </Routes>
+      </Routes>
     </>
   );
 }
