@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
+import { APPROVED_QUESTIONS } from "../services/apis";
 const MyPosts = () => {
   
 
@@ -18,7 +19,7 @@ const MyPosts = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching data...");
-        const response = await fetch('http://localhost:4000/api/v1/qna/approvedQuestions', {
+        const response = await fetch(APPROVED_QUESTIONS, {
           method: 'GET',
           credentials: 'include', // Include cookies
         });

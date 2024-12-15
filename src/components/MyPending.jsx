@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { approveQuestion } from '../services/qna.api';
-import { APPROVE_QUESTION } from '../services/apis';
+import { APPROVE_QUESTION, PENDING_QUESTIONS } from '../services/apis';
 
 const MyPending = () => {
   const token = localStorage.getItem('token');
@@ -16,7 +16,7 @@ const MyPending = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching data...");
-        const response = await fetch('http://localhost:4000/api/v1/qna/pendingQuestions', {
+        const response = await fetch(PENDING_QUESTIONS, {
           method: 'GET',
           credentials: 'include', // Include cookies
         });

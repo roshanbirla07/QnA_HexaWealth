@@ -3,6 +3,7 @@ import { loginUser } from '../services/user.api';
 import { LOGIN_USER } from '../services/apis';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router";
 
 const LoginPage = () => {
   const { setToken } = useAuth();
@@ -67,6 +68,7 @@ const LoginPage = () => {
           Submit
         </button>
       </form>
+      <div>Don't have Account ? <Link to="/signup">Signup</Link></div> 
     </div>
   );
 };
